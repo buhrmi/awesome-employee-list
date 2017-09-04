@@ -7,6 +7,7 @@ Self-contained example CRUD app using:
 * [Express](http://expressjs.com/) for REST API
 * [Sqlite3](https://www.npmjs.com/package/sqlite3) for storage
 
+![Screenshot](https://raw.githubusercontent.com/buhrmi/awesome-employee-list/master/screen.png)
 
 ## Dev Setup
 

@@ -1,11 +1,13 @@
 body {
   padding-top: 70px;
 }
-.table .btn-link {
-  padding: 0px 12px;
+.container {
+  position: relative;
 }
-.panel-footer .pagination {
-  margin: 0;
+.sort-order {
+  right: 15px;
+  width: auto;
+  position: absolute;
 }
 .footer {
   padding: 15px 0;

@@ -7,16 +7,25 @@ const db = new sqlite3.Database('db.sqlite')
 db.run('CREATE TABLE IF NOT EXISTS employees (id INTEGER PRIMARY KEY ASC, name STRING, address STRING, phone STRING, job STRING, salary INTEGER)')
 
 router.get('/employees', (req, res) => {
-  console.log(req.query)
+  let order = 'LOWER(name) ASC'
+  if (req.query.order == 'name_desc') {
+    order = 'LOWER(name) DESC'
+  } 
+  else if (req.query.order == 'salary_asc') {
+    order = 'salary ASC'
+  }
+  else if (req.query.order == 'salary_desc') {
+    order = 'salary DESC'
+  }
   if (req.query.name) {
-    db.all("SELECT * FROM employees WHERE name like ?", '%' + req.query.name + '%', (err, rows) => {
+    db.all("SELECT * FROM employees WHERE name like ? ORDER BY " + order, '%' + req.query.name + '%', (err, rows) => {
       res.json({
         employees: rows
       })
     })
   }
   else {
-    db.all('SELECT * FROM employees', (err, rows) => {
+    db.all('SELECT * FROM employees ORDER BY ' + order, (err, rows) => {
       res.json({
         employees: rows
       })

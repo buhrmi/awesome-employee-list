@@ -15,10 +15,10 @@ class SearchPage extends React.Component {
       loading: false,
       empty: false,
       query: '',
+      order: 'name',
       employees: this.props.employees
     };
     this.handleChange = this.handleChange.bind(this);
-    this.handleSelect = this.handleSelect.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.queryEmployees = this.queryEmployees.bind(this);
     this.getEmployeeThumbnail = this.getEmployeeThumbnail.bind(this);
@@ -32,20 +32,19 @@ class SearchPage extends React.Component {
     let obj = {};
     obj[event.target.name] = event.target.value;
     this.setState(obj);
-  }
-  handleSelect(page) {
-    this.setState({page: page}, this.queryEmployees);
+    if (event.target.name == 'order') this.queryEmployees()
   }
   handleSubmit(event) {
     event.stopPropagation();
     event.preventDefault();
-    this.setState({page: 1}, this.queryEmployees);
+    this.queryEmployees();
   }
   queryEmployees() {
     this.setState({loading: true}, () => {
       axios.get('/api/employees', {
         params: {
-          name: this.state.query
+          name: this.state.query,
+          order: this.state.order
         }
       })
       .then((response) => {
@@ -106,7 +105,7 @@ class SearchPage extends React.Component {
 
    
     return (
-      <div className='container'>
+      <div>
         { list }
         <Link href={'/employees?id=new'} as={'/employees/new'}><a className="btn btn-primary">New Employee</a></Link>
       </div>
@@ -137,7 +136,15 @@ class SearchPage extends React.Component {
             </div>
           </div>
         </div>
-        { this.renderResultsList() }
+        <div className='container'>
+          <select className="form-control sort-order" name="order" onChange={this.handleChange}>
+            <option value="name_asc">Name (Ascending)</option>
+            <option value="name_desc">Name (Descending)</option>
+            <option value="salary_asc">Salary (Ascending)</option>
+            <option value="salary_desc">Salary (Descending)</option>
+          </select>
+          { this.renderResultsList() }
+        </div>
       </Layout>
     );
   }

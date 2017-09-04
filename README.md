@@ -1,4 +1,4 @@
-# Awesome Employees
+# Awesome Employees List
 
 Self-contained example CRUD app using:
 
